@@ -6,6 +6,9 @@ import java.util.Map;
 public class Storage {
     private final Map<String, Integer> fruits = new HashMap<>();
 
+    public Storage() {
+    }
+
     public Map<String, Integer> getFruits() {
         return fruits;
     }
@@ -16,6 +19,16 @@ public class Storage {
         PURCHASE("p"),
         RETURN("r");
 
+        private final String code;
+
+        Operation(String code) {
+            this.code = code;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
         public static Operation fromCode(String code) {
             for (Operation op : values()) {
                 if (op.code.equals(code)) {
@@ -23,16 +36,6 @@ public class Storage {
                 }
             }
             throw new IllegalArgumentException("Unknown operation: " + code);
-        }
-
-        Operation(String code) {
-            this.code = code;
-        }
-
-        private final String code;
-
-        public String getCode() {
-            return code;
         }
     }
 }
