@@ -1,6 +1,6 @@
-package core.basesyntax.report;
+package core.basesyntax.service.impl;
 
-import java.io.BufferedWriter;
+import core.basesyntax.service.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -8,11 +8,11 @@ import java.nio.file.Path;
 public class FileWriterImpl implements FileWriter {
     @Override
     public void write(String data, String fileName) {
-        try (BufferedWriter writer =
-                     Files.newBufferedWriter(Path.of(fileName))) {
-            writer.write(data);
+        try {
+            Files.writeString(Path.of(fileName), data);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(
+                    "Can't write to file: " + fileName, e);
         }
     }
 }

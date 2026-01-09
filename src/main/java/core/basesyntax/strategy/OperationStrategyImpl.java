@@ -1,19 +1,24 @@
 package core.basesyntax.strategy;
 
-import core.basesyntax.Storage;
-import core.basesyntax.handler.OperationHandler;
+import core.basesyntax.db.Storage;
+import core.basesyntax.service.OperationHandler;
 import java.util.Map;
 
 public class OperationStrategyImpl implements OperationStrategy {
-    private final Map<Storage.Operation, OperationHandler> operationHandlerMap;
+    private final Map<Storage.Operation, OperationHandler> handlers;
 
     public OperationStrategyImpl(
-            Map<Storage.Operation, OperationHandler> operationHandlerMap) {
-        this.operationHandlerMap = operationHandlerMap;
+            Map<Storage.Operation, OperationHandler> handlers) {
+        this.handlers = handlers;
     }
 
     @Override
     public OperationHandler get(Storage.Operation operation) {
-        return operationHandlerMap.get(operation);
+        OperationHandler handler = handlers.get(operation);
+        if (handler == null) {
+            throw new RuntimeException(
+                    "No handler for operation: " + operation);
+        }
+        return handler;
     }
 }

@@ -1,7 +1,7 @@
 package core.basesyntax.strategy;
 
-import core.basesyntax.Storage;
-import core.basesyntax.handler.OperationHandler;
+import core.basesyntax.db.Storage;
+import core.basesyntax.service.OperationHandler;
 
 public interface OperationStrategy {
     OperationHandler get(Storage.Operation operation);

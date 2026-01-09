@@ -1,6 +1,7 @@
-package core.basesyntax.handler;
+package core.basesyntax.service.impl;
 
-import core.basesyntax.Storage;
+import core.basesyntax.db.Storage;
+import core.basesyntax.service.OperationHandler;
 
 public class BalanceOperation implements OperationHandler {
     private final Storage storage;
@@ -11,6 +12,9 @@ public class BalanceOperation implements OperationHandler {
 
     @Override
     public void apply(String fruit, int quantity) {
+        if (quantity < 0) {
+            throw new RuntimeException("Balance cannot be negative");
+        }
         storage.getFruits().put(fruit, quantity);
     }
 }

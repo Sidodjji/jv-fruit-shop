@@ -1,18 +1,15 @@
 package core.basesyntax;
 
-import core.basesyntax.handler.BalanceOperation;
-import core.basesyntax.handler.OperationHandler;
-import core.basesyntax.handler.PurchaseOperation;
-import core.basesyntax.handler.ReturnOperation;
-import core.basesyntax.handler.SupplyOperation;
-import core.basesyntax.report.FileWriter;
-import core.basesyntax.report.FileWriterImpl;
-import core.basesyntax.report.ReportGenerator;
-import core.basesyntax.report.ReportGeneratorImpl;
+import core.basesyntax.db.Storage;
+import core.basesyntax.service.FileReader;
+import core.basesyntax.service.FileWriter;
+import core.basesyntax.service.OperationHandler;
+import core.basesyntax.service.ReportGenerator;
+import core.basesyntax.service.impl.*;
 import core.basesyntax.strategy.OperationStrategy;
 import core.basesyntax.strategy.OperationStrategyImpl;
-import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Main {
@@ -27,16 +24,17 @@ public class Main {
 
         OperationStrategy strategy = new OperationStrategyImpl(handlers);
 
-        CsvReportCreator csvReportCreator = new CsvReportCreator(strategy);
-        csvReportCreator.processCsv(
-                new File("reportToRead.csv"),
-                new File("finalReport.csv")
-        );
+        FileReader fileReader = new FileReaderImpl();
+        List<String> lines =
+                fileReader.read("src/main/resources/reportToRead.csv");
 
-        ReportGenerator reportGenerator = new ReportGeneratorImpl(storage);
-        String report = reportGenerator.getReport();
+        CsvProcessor processor = new CsvProcessor(strategy);
+        processor.process(lines);
+
+        ReportGenerator reportGenerator = new ReportGeneratorImpl();
+        String report = reportGenerator.getReport(storage.getFruits());
 
         FileWriter fileWriter = new FileWriterImpl();
-        fileWriter.write(report, "finalReport.csv");
+        fileWriter.write(report, "src/main/resources/finalReport.csv");
     }
 }
