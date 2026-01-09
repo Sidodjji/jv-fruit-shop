@@ -7,11 +7,12 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class CsvReportCreator {
+
+    private OperationStrategy operationStrategy;
+
     public CsvReportCreator(OperationStrategy operationStrategy) {
         this.operationStrategy = operationStrategy;
     }
-
-    private OperationStrategy operationStrategy;
 
     public File processCsv(File inputFile, File outputFile) {
 

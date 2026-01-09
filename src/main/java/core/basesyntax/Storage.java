@@ -25,11 +25,11 @@ public class Storage {
             throw new IllegalArgumentException("Unknown operation: " + code);
         }
 
-        private String code;
-
         Operation(String code) {
             this.code = code;
         }
+
+        private final String code;
 
         public String getCode() {
             return code;
