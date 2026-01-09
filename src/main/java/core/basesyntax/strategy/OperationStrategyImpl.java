@@ -1,15 +1,18 @@
 package core.basesyntax.strategy;
 
 import core.basesyntax.db.Storage;
-import core.basesyntax.service.OperationHandler;
+import java.util.EnumMap;
 import java.util.Map;
 
 public class OperationStrategyImpl implements OperationStrategy {
-    private final Map<Storage.Operation, OperationHandler> handlers;
+    private final Map<Storage.Operation, OperationHandler> handlers =
+            new EnumMap<>(Storage.Operation.class);
 
-    public OperationStrategyImpl(
-            Map<Storage.Operation, OperationHandler> handlers) {
-        this.handlers = handlers;
+    public OperationStrategyImpl() {
+        handlers.put(Storage.Operation.BALANCE, new BalanceOperation());
+        handlers.put(Storage.Operation.SUPPLY, new SupplyOperation());
+        handlers.put(Storage.Operation.PURCHASE, new PurchaseOperation());
+        handlers.put(Storage.Operation.RETURN, new ReturnOperation());
     }
 
     @Override
